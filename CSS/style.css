@@ -2,9 +2,9 @@
 :root {
     --bg-main: #060608;
     --card-bg: rgba(15, 15, 18, 0.6);
-    --brad-red: #CC092F;
-    --neon-green: #00ff66;
-    --neon-blue: #00bfff;
+    --vermelho: #CC092F;
+    --neon-verde: #00ff66;
+    --neon-azul: #00bfff;
     --border-soft: rgba(255, 255, 255, 0.05);
 }
 
@@ -55,7 +55,7 @@ body {
 }
 
 .nav-brand span {
-    color: var(--brad-red);
+    color: var(--vermelho);
 }
 
 .nav-links a {
@@ -67,7 +67,7 @@ body {
 }
 
 .nav-links a:hover {
-    color: var(--brad-red);
+    color: var(--vermelho);
 }
 
 /* Seções Principais */
@@ -92,7 +92,7 @@ body {
 }
 
 .section-tag {
-    color: var(--brad-red);
+    color: var(--vermelho);
     font-family: monospace;
     font-size: 0.8rem;
     font-weight: bold;
@@ -140,9 +140,9 @@ body {
 .indicator-bar {
     width: 100%;
     height: 3px;
-    background-color: var(--neon-green);
+    background-color: var(--neon-verde);
     border-radius: 2px;
-    box-shadow: 0 0 6px var(--neon-green);
+    box-shadow: 0 0 6px var(--neon-verde);
     transition: background-color 0.4s, box-shadow 0.4s;
 }
 
@@ -168,9 +168,9 @@ body {
     border-radius: 50%;
     margin-right: 5px;
 }
-.d-red { background: #ff453a; }
+.vermelho { background: #ff453a; }
 .d-yellow { background: #ff9f0a; }
-.d-green { background: #30d158; }
+.n-verde { background: #30d158; }
 
 .terminal-title {
     color: #555555;
@@ -189,10 +189,10 @@ body {
 }
 
 /* Mensagens de Texto do Terminal */
-.status-ok { color: var(--neon-green); }
+.status-ok { color: var(--neon-verde); }
 .status-gray { color: #555555; }
-.status-process { color: var(--neon-blue); }
-.status-error { color: var(--brad-red); }
+.status-process { color: var(--neon-azul); }
+.status-error { color: var(--vermelho); }
 
 /* --- BOTÕES E CONTROLES --- */
 .interaction-bar {
@@ -211,7 +211,7 @@ body {
     color: #ffffff;
 }
 .btn-safe { background: #145a32; }
-.btn-danger { background: var(--brad-red); }
+.btn-danger { background: var(--vermelho); }
 .action-btn:active { transform: scale(0.99); }
 
 /* --- EM ALERTA (MIND MODE) --- */
@@ -221,6 +221,82 @@ body {
 }
 
 .alert-mode .indicator-bar {
-    background-color: var(--brad-red);
-    box-shadow: 0 0 6px var(--brad-red);
+    background-color: var(--vermelho);
+    box-shadow: 0 0 6px var(--vermelho);
+}
+
+/* Esconde o botão do hambúrguer no computador */
+.botao-hamburguer {
+    display: none;
+}
+
+/* ==========================================================================
+   REGRAS PARA O CELULAR (Cole exatamente este bloco)
+   ========================================================================== */
+@media (max-width: 767px) {
+
+    /* Cria as 3 listrinhas */
+    .botao-hamburguer {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 26px;
+        height: 18px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        z-index: 120;
+    }
+
+    .botao-hamburguer span {
+        width: 100%;
+        height: 2px;
+        background-color: #ffffff; /* Cor das listrinhas */
+        transition: 0.3s ease;
+    }
+
+    /* Transforma as listrinhas em um "X" quando clicado */
+    .botao-hamburguer.ligado span:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+    }
+    .botao-hamburguer.ligado span:nth-child(2) {
+        opacity: 0;
+    }
+    .botao-hamburguer.ligado span:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+    }
+
+    /* Esconde a sua barra de links atual para fora da tela */
+    .nav-bar {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 75%;
+        height: 100vh;
+        background-color: #0b0f19; /* Cor de fundo do menu lateral */
+        border-left: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: right 0.4s ease;
+        z-index: 110;
+    }
+
+    /* Faz a barra de links deslizar para dentro ao clicar */
+    .nav-bar.ligado {
+        right: 0;
+    }
+
+    /* Empilha os links verticalmente no celular */
+    .nav-links {
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+        text-align: center;
+    }
+
+    .nav-links a {
+        margin-left: 0;
+        font-size: 20px;
+    }
 }

@@ -1,4 +1,25 @@
 
+// js/menu.js
+
+const btnMenu = document.getElementById('btnMenu');
+const menuAbrivel = document.getElementById('menuAbrivel');
+
+// Abre e fecha o menu ao clicar nas 3 listrinhas
+btnMenu.addEventListener('click', () => {
+    btnMenu.classList.toggle('ligado');
+    menuAbrivel.classList.toggle('ligado');
+});
+
+// Fecha o menu automaticamente ao clicar em um link interno
+const links = document.querySelectorAll('.nav-links a');
+links.forEach(link => {
+    link.addEventListener('click', () => {
+        btnMenu.classList.remove('ligado');
+        menuAbrivel.classList.remove('ligado');
+    });
+});
+
+
 // 1. GRÁFICO DE PARTÍCULAS
 
 const canvas = document.getElementById('constellationCanvas');
@@ -137,3 +158,4 @@ function executarSimulacao(ambienteSaudavel) {
         `;
     }
 }
+
