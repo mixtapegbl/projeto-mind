@@ -13,14 +13,29 @@
 
     <div class="site-container">
         
-        <nav class="nav-bar">
-            <div class="nav-brand">BRADESCO <span>MIND</span></div>
+        <header class="barra-topo">
+    <div class="site-container">
+        
+        <div class="nav-brand">BRADESCO <span>MIND</span></div>
+
+        <!-- COLE APENAS ESTE BOTÃO (As 3 listrinhas) -->
+        <button class="botao-hamburguer" id="btnMenu" aria-label="Abrir Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        
+        <!-- ADICIONE O ID 'menuAbrivel' NA SUA TAG NAV -->
+        <nav class="nav-bar" id="menuAbrivel">
             <div class="nav-links">
                 <a href="#introducao">Introdução</a>
                 <a href="#ambiente">Ambiente</a>
                 <a href="#demonstracao">Painel Operacional</a>
             </div>
         </nav>
+
+    </div>
+</header>
 
         <section id="introducao" class="content-section">
             <div class="glass-card">
@@ -29,6 +44,8 @@
                 <p>O <strong>Bradesco Mind</strong> centraliza telemetrias críticas em um dashboard intuitivo, aplicando lógica condicional assíncrona para executar rotinas de <em>Auto-healing</em> automáticas em cenários de risco.</p>
             </div>
         </section>
+
+        
 
         <!-- Painel Operacional com 4 Telemetrias e Terminal -->
         <section id="demonstracao" class="content-section">
