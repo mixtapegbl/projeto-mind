@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bradesco Mind - Central de Comando SRE</title>
+    <link rel="stylesheet" href="CSS/style.css">
+</head>
+<body>
+
+    <!-- Gráfico para as Partículas -->
+    <canvas id="constellationCanvas"></canvas>
+
+    <div class="site-container">
+        
+        <nav class="nav-bar">
+            <div class="nav-brand">BRADESCO <span>MIND</span></div>
+            <div class="nav-links">
+                <a href="#introducao">Introdução</a>
+                <a href="#ambiente">Ambiente</a>
+                <a href="#demonstracao">Painel Operacional</a>
+            </div>
+        </nav>
+
+        <section id="introducao" class="content-section">
+            <div class="glass-card">
+                <span class="section-tag"># PROJETO / MVP</span>
+                <h2>Mente Analítica Interativa</h2>
+                <p>O <strong>Bradesco Mind</strong> centraliza telemetrias críticas em um dashboard intuitivo, aplicando lógica condicional assíncrona para executar rotinas de <em>Auto-healing</em> automáticas em cenários de risco.</p>
+            </div>
+        </section>
+
+        <!-- Painel Operacional com 4 Telemetrias e Terminal -->
+        <section id="demonstracao" class="content-section">
+            <div class="glass-card" id="centralPanel">
+                <span class="section-tag"># COMMAND_CENTER / REAL-TIME</span>
+                <h2>Painel Operacional de Telemetria</h2>
+                
+                <!-- Grid Informativa com as 4 Fontes de Dados -->
+                <div class="dashboard-grid">
+                    <div class="metric-card" id="cardApi">
+                        <h4>Métricas PIX (API)</h4>
+                        <h2 id="txtApi">14 ms</h2>
+                        <div class="indicator-bar"></div>
+                    </div>
+                    <div class="metric-card" id="cardDb">
+                        <h4>Fila de Conexões (DB)</h4>
+                        <h2 id="txtDb">42 / 100</h2>
+                        <div class="indicator-bar"></div>
+                    </div>
+                    <div class="metric-card" id="cardCpu">
+                        <h4>Uso de CPU (Servidor)</h4>
+                        <h2 id="txtCpu">28 %</h2>
+                        <div class="indicator-bar"></div>
+                    </div>
+                    <div class="metric-card" id="cardMemory">
+                        <h4>Consumo de Memória</h4>
+                        <h2 id="txtMemory">3.4 GB</h2>
+                        <div class="indicator-bar"></div>
+                    </div>
+                </div>
+
+                <!-- Terminal Operacional Simples -->
+                <div class="terminal-container">
+                    <div class="terminal-header">
+                        <span class="dot d-red"></span>
+                        <span class="dot d-yellow"></span>
+                        <span class="dot d-green"></span>
+                        <span class="terminal-title">mind_core_telemetry.sh</span>
+                    </div>
+                    <div class="terminal-body" id="logTerminal">
+                        <p class="status-ok">> [OK] Monitoramento ativo. Telemetria operando dentro das margens seguras.</p>
+                    </div>
+                </div>
+
+                <!-- Botões de Ação Interativos -->
+                <div class="interaction-bar">
+                    <button class="action-btn btn-safe" onclick="executarSimulacao(true)">Simular Infra OK</button>
+                    <button class="action-btn btn-danger" onclick="executarSimulacao(false)">Injetar Instabilidade</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script src="JS/particles.js"></script>
+</body>
+</html>
