@@ -295,17 +295,41 @@ body {
 /* ==========================================================================
    REGRAS DE RESPONSIVIDADE PARA O CELULAR (MOBILE)
    ========================================================================== */
+
 @media (max-width: 767px) {
 
+    /* CORREÇÃO DO FLUXO: Desfaz o alinhamento horizontal indesejado do site */
     .site-container {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
+        flex-direction: column; /* Obriga o conteúdo a ir de cima para baixo */
         width: 100%;
         box-sizing: border-box;
+        padding: 0 15px;
     }
 
-    /* Ativa o hambúrguer no canto superior direito */
+    /* Ajusta cada bloco de texto para ocupar a largura inteira verticalmente */
+    .content-section {
+        min-height: auto;
+        padding: 30px 0;
+        width: 100%;
+        display: block; /* Remove comportamentos flex que geram efeito de abas horizontais */
+    }
+
+    .glass-card {
+        width: 100%;
+        box-sizing: border-box;
+        margin-bottom: 20px;
+    }
+
+    /* Mantém o comportamento específico e correto do cabeçalho de topo */
+    .barra-topo .site-container {
+        flex-direction: row; /* Mantém logo na esquerda e hamburguer na direita */
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 5px;
+    }
+
+    /* Hambúrguer */
     .botao-hamburguer {
         display: flex;
         flex-direction: column;
@@ -316,8 +340,6 @@ body {
         border: none;
         cursor: pointer;
         z-index: 120;
-        padding: 0;
-        margin: 0;
     }
 
     .botao-hamburguer span {
@@ -328,18 +350,11 @@ body {
         transform-origin: center;
     }
 
-    /* Transforma as listrinhas em um "X" perfeito */
-    .botao-hamburguer.ligado span:nth-child(1) {
-        transform: translateY(8px) rotate(45deg);
-    }
-    .botao-hamburguer.ligado span:nth-child(2) {
-        opacity: 0;
-    }
-    .botao-hamburguer.ligado span:nth-child(3) {
-        transform: translateY(-8px) rotate(-45deg);
-    }
+    .botao-hamburguer.ligado span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .botao-hamburguer.ligado span:nth-child(2) { opacity: 0; }
+    .botao-hamburguer.ligado span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
-    /* Esconde a barra de links para fora da tela (Menu Lateral) */
+    /* Menu Lateral Oculto */
     .nav-bar {
         position: fixed;
         top: 0;
@@ -371,19 +386,7 @@ body {
         font-size: 20px;
     }
 
-    /* Empilha a seção do ambiente verticalmente no celular */
-    .layout-split {
-        flex-direction: column;
-        gap: 25px;
-    }
-
-    .split-image-container {
-        width: 100%;
-        padding: 0 10px;
-        box-sizing: border-box;
-    }
-
-    /* Transforma a grid de métricas em uma coluna única */
+    /* Alinha a grid do painel para empilhar verticalmente */
     .dashboard-grid {
         grid-template-columns: 1fr;
     }
