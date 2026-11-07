@@ -20,7 +20,7 @@ body {
     padding: 0;
 }
 
-/* Palco de Fundo */
+/* Palco de Fundo do Canvas */
 #constellationCanvas {
     position: fixed;
     top: 0;
@@ -38,14 +38,30 @@ body {
     padding: 0 20px;
 }
 
-/* Barra de Navegação */
+/* --- BARRA DE NAVEGAÇÃO SUPERIOR FIXA --- */
+.barra-topo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(6, 6, 8, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-soft);
+    z-index: 100;
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+/* Ativado pelo JS para esconder o menu ao rolar a tela */
+.barra-topo.oculto {
+    transform: translateY(-100%);
+}
+
+/* Alinhamento do Cabeçalho */
 .nav-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 25px 0;
-    border-bottom: 1px solid var(--border-soft);
-    backdrop-filter: blur(10px);
 }
 
 .nav-brand {
@@ -70,13 +86,19 @@ body {
     color: var(--vermelho);
 }
 
-/* Seções Principais */
+/* Esconde o botão do hambúrguer no computador */
+.botao-hamburguer {
+    display: none;
+}
+
+/* --- SEÇÕES PRINCIPAIS DE TEXTO --- */
 .content-section {
     min-height: 85vh;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 40px 0;
+    padding-top: 100px; /* Impede o menu fixo de cobrir os títulos */
     box-sizing: border-box;
 }
 
@@ -105,7 +127,37 @@ body {
 
 .glass-card p {
     color: #cccccc;
-    line-height: 1.5;
+    line-height: 1.6;
+}
+
+/* Layout Split para a secção do Ambiente */
+.layout-split {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+}
+
+.split-info {
+    flex: 1.2;
+}
+
+/* Contêiner da imagem responsiva */
+.split-image-container {
+    flex: 0.8;
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+/* Imagem fluida que encolhe proporcionalmente */
+.split-image-container img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid var(--border-soft);
 }
 
 /* --- GRID DE TELEMETRIA (4 CARDS) --- */
@@ -122,6 +174,13 @@ body {
     padding: 20px;
     border-radius: 8px;
     text-align: center;
+    transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+
+.metric-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 10px 20px rgba(255, 255, 255, 0.05);
 }
 
 .metric-card h4 {
@@ -146,7 +205,7 @@ body {
     transition: background-color 0.4s, box-shadow 0.4s;
 }
 
-/* --- O TERMINAL --- */
+/* --- O TERMINAL OPERACIONAL --- */
 .terminal-container {
     background: #020202;
     border: 1px solid var(--border-soft);
@@ -209,9 +268,17 @@ body {
     font-weight: bold;
     cursor: pointer;
     color: #ffffff;
+    transition: background 0.3s, transform 0.2s, filter 0.3s, box-shadow 0.3s;
 }
+
 .btn-safe { background: #145a32; }
 .btn-danger { background: var(--vermelho); }
+
+.action-btn:hover {
+    filter: brightness(1.2);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+}
 .action-btn:active { transform: scale(0.99); }
 
 /* --- EM ALERTA (MIND MODE) --- */
@@ -225,17 +292,20 @@ body {
     box-shadow: 0 0 6px var(--vermelho);
 }
 
-/* Esconde o botão do hambúrguer no computador */
-.botao-hamburguer {
-    display: none;
-}
-
 /* ==========================================================================
-   REGRAS PARA O CELULAR (Cole exatamente este bloco)
+   REGRAS DE RESPONSIVIDADE PARA O CELULAR (MOBILE)
    ========================================================================== */
 @media (max-width: 767px) {
 
-    /* Cria as 3 listrinhas */
+    .site-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* Ativa o hambúrguer no canto superior direito */
     .botao-hamburguer {
         display: flex;
         flex-direction: column;
@@ -246,16 +316,19 @@ body {
         border: none;
         cursor: pointer;
         z-index: 120;
+        padding: 0;
+        margin: 0;
     }
 
     .botao-hamburguer span {
         width: 100%;
         height: 2px;
-        background-color: #ffffff; /* Cor das listrinhas */
+        background-color: #ffffff;
         transition: 0.3s ease;
+        transform-origin: center;
     }
 
-    /* Transforma as listrinhas em um "X" quando clicado */
+    /* Transforma as listrinhas em um "X" perfeito */
     .botao-hamburguer.ligado span:nth-child(1) {
         transform: translateY(8px) rotate(45deg);
     }
@@ -266,28 +339,26 @@ body {
         transform: translateY(-8px) rotate(-45deg);
     }
 
-    /* Esconde a sua barra de links atual para fora da tela */
+    /* Esconde a barra de links para fora da tela (Menu Lateral) */
     .nav-bar {
         position: fixed;
         top: 0;
         right: -100%;
         width: 75%;
         height: 100vh;
-        background-color: #0b0f19; /* Cor de fundo do menu lateral */
-        border-left: 1px solid rgba(255, 255, 255, 0.1);
+        background-color: #060608;
+        border-left: 1px solid var(--border-soft);
         display: flex;
         justify-content: center;
         align-items: center;
-        transition: right 0.4s ease;
+        transition: right 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
         z-index: 110;
     }
 
-    /* Faz a barra de links deslizar para dentro ao clicar */
     .nav-bar.ligado {
         right: 0;
     }
 
-    /* Empilha os links verticalmente no celular */
     .nav-links {
         display: flex;
         flex-direction: column;
@@ -298,5 +369,26 @@ body {
     .nav-links a {
         margin-left: 0;
         font-size: 20px;
+    }
+
+    /* Empilha a seção do ambiente verticalmente no celular */
+    .layout-split {
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    .split-image-container {
+        width: 100%;
+        padding: 0 10px;
+        box-sizing: border-box;
+    }
+
+    /* Transforma a grid de métricas em uma coluna única */
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .interaction-bar {
+        flex-direction: column;
     }
 }
