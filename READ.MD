@@ -8,7 +8,7 @@ O **Bradesco Mind** é uma solução de monitoramento de ambientes heterogêneos
 
 Este projeto foi construído adotando as práticas modernas de **IA Spec-Driven Development** fomentadas pelo ecossistema de tecnologia do Bradesco.
 
-* **IA como Ferramenta de Agilização:** O uso de Inteligência Artificial Generativa atuou como um acelerador estratégico na concepção e refinamento lógico do ecossistema, otimizando em mais de 60% o tempo gasto na estruturação das rotinas operacionais e scripts matemáticos.
+* **IA como Ferramenta de Agilização:** O uso de Inteligência Artificial Generativa atuou como um acelerador estratégico na concepção e refinamento lógico do ecossistema, otimizando em mais de 40% o tempo gasto na estruturação das rotinas operacionais e scripts matemáticos.
 * **O Terminal de Comando Operacional:** A Inteligência Artificial foi a ferramenta central responsável pela arquitetura e lógica matemática do terminal de logs (`mind_core_telemetry.sh`). O algoritmo foi otimizado pela IA para interpretar as mudanças lógicas do DOM, mantendo a semântica limpa e simulando o comportamento exato de uma linha de comando Linux corporativa.
 * **Ferramenta de Estudos e Ajustes de CSS:** As demais frentes do projeto (como o palco gráfico Canvas e o menu responsivo móvel) serviram como laboratório de experimentação prática para a equipe. Os componentes gráficos e as transições foram refatorados pela IA para garantir que 100% da responsabilidade visual ficasse retida estritamente no arquivo `style.css`, promovendo o estudo aprofundado de seletores limpos e regras estruturais fluidas de herança visual.
 
@@ -70,7 +70,9 @@ bradesco-mind/
 ├── CSS/
 │   └── style.css
 └── JS/
-    └── particles.js
+│   └── particles.js
+├── assets/
+      └── img
 ```
 3. Abra o arquivo `index.html` diretamente em qualquer navegador moderno (Chrome, Edge, Safari ou Firefox).
 4. Utilize a barra de navegação responsiva ou role a tela para ler a documentação. No painel operacional inferior, utilize os botões interativos para injetar instabilidades e observar a tomada de decisão do motor do sistema.
