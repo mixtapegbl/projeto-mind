@@ -141,6 +141,13 @@ body {
     flex: 1.2;
 }
 
+.pilar-grid{
+
+    margin-top: 30px;
+    border-top: 1px solid var(--border-soft);
+    padding-top: 20px;
+}
+
 /* Contêiner da imagem responsiva */
 .split-image-container {
     flex: 0.8;
@@ -155,7 +162,6 @@ body {
     width: 100%;
     max-width: 100%;
     height: auto;
-    object-fit: cover;
     border-radius: 8px;
     border: 1px solid var(--border-soft);
 }
@@ -268,7 +274,7 @@ body {
     font-weight: bold;
     cursor: pointer;
     color: #ffffff;
-    transition: background 0.3s, transform 0.2s, filter 0.3s, box-shadow 0.3s;
+    transition: filter 0.3s, box-shadow 0.3s, transform 0.2s;
 }
 
 .btn-safe { background: #145a32; }
