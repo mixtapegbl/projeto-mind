@@ -1,104 +1,210 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bradesco Mind - Central de Comando SRE</title>
-    <link rel="stylesheet" href="CSS/style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10151d">
+  <meta name="description" content="Bradesco Mind: laboratório educacional de observabilidade, detecção e resposta auditável a incidentes de sistemas bancários simulados.">
+  <title>Bradesco Mind | Painel de Monitoramento</title>
+  <link rel="stylesheet" href="CSS/style.css">
+  <script type="module" src="JS/app.mjs"></script>
 </head>
 <body>
+  <a class="skip-link" href="#operacao">Pular para o conteúdo</a>
+  <div class="app-shell">
+    <aside class="sidebar" id="sideNav" aria-label="Menu principal">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <span class="brand-mark-letter">M</span>
+          <svg class="brand-mark-symbol" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+            <path d="M32 49V17" />
+            <path d="M32 17c-9 0-16 5-20 12" />
+            <path d="M32 17c9 0 16 5 20 12" />
+            <path d="M21 29c-2 6-1 11 3 15" />
+            <path d="M43 29c2 6 1 11-3 15" />
+            <path d="M27 38h10" />
+          </svg>
+        </div>
+        <div class="brand-text"><strong>bradesco<span>mind</span></strong><small>PROJETO FIAP</small></div>
+      </div>
+      <p class="sidebar-label">WORKSPACE / 01</p>
+      <nav class="main-nav" aria-label="Navegação">
+        <a class="nav-link active" href="#operacao" aria-current="page"><span class="nav-symbol" aria-hidden="true">◫</span> Painel principal</a>
+        <a class="nav-link" href="#incidentes"><span class="nav-symbol" aria-hidden="true">≡</span> Incidentes <span class="nav-count" id="sideIncidentCount">0</span></a>
+        <a class="nav-link" href="#metodologia"><span class="nav-symbol" aria-hidden="true">⌘</span> Como funciona</a>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="sidebar-box">
+          <span class="tiny-title">SOBRE O PROJETO</span>
+          <strong>Ambiente educacional</strong>
+          <p>Dados fictícios usados apenas para estudar como identificar e resolver problemas.</p>
+        </div>
+        <div class="version">MIND CORE <span>v2.0 · PROTÓTIPO</span></div>
+      </div>
+    </aside>
 
-    <!-- Gráfico para as Partículas -->
-    <canvas id="constellationCanvas"></canvas>
+    <div class="workspace">
+      <header class="topbar">
+        <button type="button" class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Abrir menu" aria-controls="sideNav" aria-expanded="false">☰</button>
+        <div class="breadcrumb">PLATAFORMA <span>/</span> OPERAÇÕES <span>/</span> VISÃO GERAL</div>
+        <div class="topbar-right">
+          <span class="env-chip"><span class="tiny-dot"></span> AMBIENTE SIMULADO</span>
+          <time id="localTime" class="clock" aria-label="Horário local">--:--:--</time>
+        </div>
+      </header>
 
-    <div class="site-container">
-        
-        <header class="barra-topo">
-    <div class="site-container">
-        
-        <div class="nav-brand">BRADESCO <span>MIND</span></div>
-
-        <!-- COLE APENAS ESTE BOTÃO (As 3 listrinhas) -->
-        <button class="botao-hamburguer" id="btnMenu" aria-label="Abrir Menu">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
-        
-        <!-- ADICIONE O ID 'menuAbrivel' NA SUA TAG NAV -->
-        <nav class="nav-bar" id="menuAbrivel">
-            <div class="nav-links">
-                <a href="#introducao">Introdução</a>
-                <a href="#ambiente">Ambiente</a>
-                <a href="#demonstracao">Painel Operacional</a>
+      <main>
+        <section id="operacao" class="section" aria-labelledby="pageTitle">
+          <div class="page-heading">
+            <div>
+              <div class="eyebrow">PROJETO FIAP / CHALLENGE BRADESCO</div>
+              <h1 id="pageTitle">Painel de monitoramento <span class="title-accent title-brand-lockup"><span class="title-brand-initial"><span class="title-brand-letter">M</span><svg class="title-brand-symbol" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><path d="M32 49V17" /><path d="M32 17c-9 0-16 5-20 12" /><path d="M32 17c9 0 16 5 20 12" /><path d="M21 29c-2 6-1 11 3 15" /><path d="M43 29c2 6 1 11-3 15" /><path d="M27 38h10" /></svg></span><span class="title-brand-rest">IND</span></span></h1>
+              <p>Veja como o PIX e o banco de dados estão funcionando. Simule um problema, escolha uma solução e veja o resultado.</p>
             </div>
-        </nav>
+            <button type="button" id="exportJsonTop" class="button button-outline"><span aria-hidden="true">↓</span> Exportar evidências</button>
+          </div>
 
-    </div>
-</header>
-
-        <section id="introducao" class="content-section">
-            <div class="glass-card">
-                <span class="section-tag"># PROJETO / MVP</span>
-                <h2>Mente Analítica Interativa</h2>
-                <p>O <strong>Bradesco Mind</strong> centraliza telemetrias críticas em um dashboard intuitivo, aplicando lógica condicional assíncrona para executar rotinas de <em>Auto-healing</em> automáticas em cenários de risco.</p>
+          <div class="overview-strip" aria-label="Estado resumido da operação">
+            <div class="overview-primary">
+              <span class="field-label">ESTADO DO AMBIENTE</span>
+              <div class="overview-status"><span class="big-status-dot" id="healthDot"></span><strong id="healthLabel" aria-live="polite">Operacional</strong></div>
+              <span class="hint" id="statusHelper">Nenhuma anomalia ativa</span>
             </div>
+            <div class="overview-item">
+              <span class="field-label">NÍVEL DE RISCO</span>
+              <strong id="riskValue" class="overview-number" aria-live="polite">3<span>/100</span></strong>
+              <span class="hint">Calculado por regras simples</span>
+            </div>
+            <div class="overview-item">
+              <span class="field-label">SISTEMAS MONITORADOS</span>
+              <strong class="overview-number">02<span>/02</span></strong>
+              <span class="hint">API PIX + banco de dados</span>
+            </div>
+            <div class="overview-item">
+              <span class="field-label">PROBLEMAS REGISTRADOS</span>
+              <strong id="incidentCount" class="overview-number">00</strong>
+              <span class="hint" id="latestCollection">Atualização: aguardando coleta</span>
+            </div>
+          </div>
+
+          <div class="section-heading compact">
+            <div><span class="eyebrow">EXPERIMENTE / PASSO A PASSO</span><h2>Teste uma situação</h2></div>
+            <span class="section-note">Nenhum sistema real é afetado</span>
+          </div>
+          <div class="simulator-panel">
+            <div class="simulator-copy">
+              <strong>Escolha um problema para simular</strong>
+              <span id="scenarioDescription">Aumento da latência p95 e da taxa de erros do serviço.</span>
+            </div>
+            <label class="select-wrap" for="scenarioSelect">
+              <span class="sr-only">Cenário</span>
+              <select id="scenarioSelect">
+                <option value="api">01 — PIX lento</option>
+                <option value="database">02 — Banco sobrecarregado</option>
+                <option value="cascade">03 — Vários problemas juntos</option>
+              </select>
+            </label>
+            <button type="button" class="button button-danger" id="startScenario">Simular problema</button>
+            <button type="button" class="button button-ghost" id="restoreBaseline">Voltar ao normal</button>
+          </div>
+          <div class="howto-strip" aria-label="Como usar o simulador"><strong>Como usar:</strong> <span>1. Escolha um problema</span><span>2. Clique em simular</span><span>3. Leia a sugestão</span><span>4. Aprove ou rejeite</span><span>5. Confira o histórico</span></div>
+          <p class="simulation-feedback" id="simulationFeedback" role="status" aria-live="polite">Clique em “Simular problema” para começar. Você escolhe se autoriza a solução.</p>
+
+          <div class="section-heading">
+            <div><span class="eyebrow">MONITORAMENTO / 05 INDICADORES</span><h2>Como estão os sistemas?</h2></div>
+            <span class="section-note"><span class="live-indicator"></span> Dados de demonstração</span>
+          </div>
+          <div class="metric-grid" id="metricGrid">
+            <article class="metric-card" data-metric="latencyMs">
+              <div class="metric-header"><span>PIX <span class="divider-mark">/</span> TEMPO</span><span class="metric-state" id="status-latencyMs">NORMAL</span></div>
+              <h3 id="value-latencyMs">14 ms</h3>
+              <div class="metric-footer"><span>Tempo para responder</span><svg id="spark-latencyMs" class="sparkline" role="img" aria-label="Evolução da latência" viewBox="0 0 108 35" preserveAspectRatio="none"><path d=""></path></svg></div>
+            </article>
+            <article class="metric-card" data-metric="errorRate">
+              <div class="metric-header"><span>PIX <span class="divider-mark">/</span> FALHAS</span><span class="metric-state" id="status-errorRate">NORMAL</span></div>
+              <h3 id="value-errorRate">0,1 %</h3>
+              <div class="metric-footer"><span>Pedidos que falharam</span><svg id="spark-errorRate" class="sparkline" role="img" aria-label="Evolução da taxa de erros" viewBox="0 0 108 35" preserveAspectRatio="none"><path d=""></path></svg></div>
+            </article>
+            <article class="metric-card" data-metric="dbConnections">
+              <div class="metric-header"><span>BANCO <span class="divider-mark">/</span> CONEXÕES</span><span class="metric-state" id="status-dbConnections">NORMAL</span></div>
+              <h3 id="value-dbConnections">42 / 100</h3>
+              <div class="metric-footer"><span>Conexões em uso</span><svg id="spark-dbConnections" class="sparkline" role="img" aria-label="Evolução das conexões" viewBox="0 0 108 35" preserveAspectRatio="none"><path d=""></path></svg></div>
+            </article>
+            <article class="metric-card" data-metric="cpuPercent">
+              <div class="metric-header"><span>SERVIDOR <span class="divider-mark">/</span> CPU</span><span class="metric-state" id="status-cpuPercent">NORMAL</span></div>
+              <h3 id="value-cpuPercent">28 %</h3>
+              <div class="metric-footer"><span>Uso do processador</span><svg id="spark-cpuPercent" class="sparkline" role="img" aria-label="Evolução da CPU" viewBox="0 0 108 35" preserveAspectRatio="none"><path d=""></path></svg></div>
+            </article>
+            <article class="metric-card" data-metric="memoryGb">
+              <div class="metric-header"><span>SERVIDOR <span class="divider-mark">/</span> RAM</span><span class="metric-state" id="status-memoryGb">NORMAL</span></div>
+              <h3 id="value-memoryGb">3,4 GB</h3>
+              <div class="metric-footer"><span>Memória em uso (total: 8 GB)</span><svg id="spark-memoryGb" class="sparkline" role="img" aria-label="Evolução da memória" viewBox="0 0 108 35" preserveAspectRatio="none"><path d=""></path></svg></div>
+            </article>
+          </div>
+
+          <div class="operation-layout">
+            <article class="panel decision-panel" aria-labelledby="decisionTitle">
+              <div class="panel-heading"><div><span class="eyebrow">MIND / REGRAS SIMPLES</span><h2 id="decisionTitle">Problema e solução</h2></div><span class="chip chip-neutral" id="decisionChip">EM OBSERVAÇÃO</span></div>
+              <div class="decision-overview">
+                <div class="decision-marker" id="decisionMarker">✓</div>
+                <div><h3 id="analysisTitle">Nenhum problema em aberto</h3><p id="analysisDescription">Os indicadores estão normais. Escolha um problema para ver como o sistema reage.</p></div>
+              </div>
+              <div class="decision-separator"></div>
+              <span class="tiny-title">POR QUE O SISTEMA DEU ESSE ALERTA?</span>
+              <ul class="signal-list" id="signalsList" aria-live="polite"><li>Latência PIX e conexões do banco dentro dos limites.</li></ul>
+              <div class="recommendation" id="recommendationBox" hidden>
+                <span class="tiny-title">SOLUÇÃO SUGERIDA</span>
+                <strong id="recommendationTitle"></strong>
+                <p id="recommendationDescription"></p>
+                <p class="safeguard" id="recommendationSafeguard"></p>
+                <div class="decision-buttons" id="decisionButtons">
+                  <button type="button" class="button button-danger" id="approveButton">Aprovar solução simulada</button>
+                  <button type="button" class="button button-outline" id="rejectButton">Não aprovar</button>
+                </div>
+              </div>
+            </article>
+            <article class="panel timeline-panel" aria-labelledby="timelineTitle">
+              <div class="panel-heading"><div><span class="eyebrow">ACONTECIMENTOS</span><h2 id="timelineTitle">O que aconteceu</h2></div><span class="section-note">Últimos eventos</span></div>
+              <ol class="event-list" id="activityList" aria-live="polite"></ol>
+            </article>
+          </div>
         </section>
 
-        
-
-        <!-- Painel Operacional com 4 Telemetrias e Terminal -->
-        <section id="demonstracao" class="content-section">
-            <div class="glass-card" id="centralPanel">
-                <span class="section-tag"># COMMAND_CENTER / REAL-TIME</span>
-                <h2>Painel Operacional de Telemetria</h2>
-                
-                <!-- Grid Informativa com as 4 Fontes de Dados -->
-                <div class="dashboard-grid">
-                    <div class="metric-card" id="cardApi">
-                        <h4>Métricas PIX (API)</h4>
-                        <h2 id="txtApi">14 ms</h2>
-                        <div class="indicator-bar"></div>
-                    </div>
-                    <div class="metric-card" id="cardDb">
-                        <h4>Fila de Conexões (DB)</h4>
-                        <h2 id="txtDb">42 / 100</h2>
-                        <div class="indicator-bar"></div>
-                    </div>
-                    <div class="metric-card" id="cardCpu">
-                        <h4>Uso de CPU (Servidor)</h4>
-                        <h2 id="txtCpu">28 %</h2>
-                        <div class="indicator-bar"></div>
-                    </div>
-                    <div class="metric-card" id="cardMemory">
-                        <h4>Consumo de Memória</h4>
-                        <h2 id="txtMemory">3.4 GB</h2>
-                        <div class="indicator-bar"></div>
-                    </div>
-                </div>
-
-                <!-- Terminal Operacional Simples -->
-                <div class="terminal-container">
-                    <div class="terminal-header">
-                        <span class="dot d-red"></span>
-                        <span class="dot d-yellow"></span>
-                        <span class="dot d-green"></span>
-                        <span class="terminal-title">mind_core_telemetry.sh</span>
-                    </div>
-                    <div class="terminal-body" id="logTerminal">
-                        <p class="status-ok">> [OK] Monitoramento ativo. Telemetria operando dentro das margens seguras.</p>
-                    </div>
-                </div>
-
-                <!-- Botões de Ação Interativos -->
-                <div class="interaction-bar">
-                    <button class="action-btn btn-safe" onclick="executarSimulacao(true)">Simular Infra OK</button>
-                    <button class="action-btn btn-danger" onclick="executarSimulacao(false)">Injetar Instabilidade</button>
-                </div>
-            </div>
+        <section id="incidentes" class="section section-following" aria-labelledby="incidentTitle">
+          <div class="section-heading">
+            <div><span class="eyebrow">REGISTRO / HISTÓRICO</span><h2 id="incidentTitle">Histórico de problemas</h2></div>
+            <div class="toolbar"><button type="button" class="button button-outline button-small" id="exportCsv">Exportar CSV</button><button type="button" class="button button-ghost button-small" id="clearHistory">Limpar histórico</button></div>
+          </div>
+          <div class="table-container">
+            <table>
+              <thead><tr><th>IDENTIFICADOR</th><th>DATA E HORA</th><th>TIPO</th><th>RISCO</th><th>SITUAÇÃO</th><th scope="col" aria-label="Abrir evidências"></th></tr></thead>
+              <tbody id="incidentRows"><tr><td colspan="6" class="empty-state">Nenhum problema registrado. Inicie uma simulação para testar.</td></tr></tbody>
+            </table>
+          </div>
+          <article id="incidentDetail" class="incident-detail" hidden aria-labelledby="incidentDetailTitle">
+            <div class="detail-head"><div><span class="eyebrow">EVIDÊNCIAS DO INCIDENTE</span><h3 id="incidentDetailTitle">Detalhamento</h3></div><button type="button" class="button button-ghost button-small" id="closeDetail">Fechar</button></div>
+            <div id="detailContent"></div>
+          </article>
         </section>
-    </div>
 
-    <script src="JS/particles.js"></script>
+        <section id="metodologia" class="section section-following" aria-labelledby="methodTitle">
+          <div class="section-heading"><div><span class="eyebrow">EXPLICAÇÃO / COMO FUNCIONA</span><h2 id="methodTitle">Como o MIND funciona</h2></div><span class="section-note">Regras públicas e verificáveis</span></div>
+          <div class="method-intro"><p>O Bradesco Mind é um <strong>projeto acadêmico</strong>. Ele usa números inventados para mostrar como uma equipe de tecnologia pode identificar problemas, sugerir uma solução e registrar o resultado. As decisões seguem regras de comparação simples, sem conexão com os sistemas reais do banco.</p></div>
+          <div class="method-steps">
+            <div class="method-step"><span>01</span><h3>Coletar</h3><p>O programa acompanha os números do PIX, do banco de dados, do processador e da memória.</p></div>
+            <div class="method-step"><span>02</span><h3>Detectar</h3><p>Quando algum número ultrapassa um limite, aparece um alerta.</p></div>
+            <div class="method-step"><span>03</span><h3>Correlacionar</h3><p>Se mais de um indicador piora ao mesmo tempo, o alerta pode ficar mais grave.</p></div>
+            <div class="method-step"><span>04</span><h3>Decidir</h3><p>O programa sugere uma solução. A pessoa escolhe aprovar ou não.</p></div>
+            <div class="method-step"><span>05</span><h3>Verificar</h3><p>A simulação mostra os números melhorando e salva o que aconteceu.</p></div>
+          </div>
+          <div class="panel thresholds-panel"><div class="panel-heading"><div><span class="eyebrow">REGRAS / NÚMEROS DE REFERÊNCIA</span><h3>Quando aparece um alerta?</h3></div><span class="section-note">Valores escolhidos apenas para demonstração</span></div>
+            <div class="table-container"><table class="thresholds-table"><thead><tr><th>MÉTRICA</th><th>ATENÇÃO ≥</th><th>CRÍTICO ≥</th><th>COMPONENTE</th></tr></thead><tbody id="thresholdRows"></tbody></table></div>
+            <p class="policy-note">Regra simples: dois indicadores críticos, ou um crítico junto com dois em atenção, geram um problema crítico. Toda solução precisa de aprovação. Se faltarem números, o programa mostra que não tem dados suficientes.</p>
+          </div>
+        </section>
+      </main>
+      <footer class="footer"><span>BRADESCO MIND <span class="divider-mark">/</span> PROJETO ACADÊMICO · FIAP</span><span>Trabalho acadêmico com dados fictícios. Não é um sistema oficial do Bradesco.</span></footer>
+    </div>
+  </div>
 </body>
 </html>
